@@ -14,6 +14,9 @@
 <body>
     <h2>Add Your Details</h2>
     <form:form action="saveCustomer" modelAttribute="customer" method="post">
+
+<%--        need to associate customer with id--%>
+        <form:hidden path="id"/>
         <table>
             <tbody>
             <tr>

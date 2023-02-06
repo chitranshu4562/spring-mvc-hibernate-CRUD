@@ -6,10 +6,7 @@ import com.prakash.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -43,4 +40,25 @@ public class CustomerController {
         customerService.saveCustomer(theCustomer);
         return "redirect:/customer/list";
     }
+    @GetMapping("/showFormForUpdate")
+    public String showFormForUpdate(@RequestParam("customerId") int theId, Model theModel) {
+        System.out.println("Customer id from url => " + theId);
+        // get the customer from database
+        Customer theCustomer = customerService.getCustomer(theId);
+
+        // set customer as a model and pre-populate in form
+        theModel.addAttribute("customer", theCustomer);
+
+        // send it to over our form
+        return "show-form";
+    }
+    @GetMapping("/delete")
+    public String delete(@RequestParam("customerId") int theId) {
+        // delete the customer from database
+        customerService.deleteCustomer(theId);
+
+        // send it to over our form
+        return "redirect:/customer/list";
+    }
+
 }
